@@ -7,18 +7,20 @@ export class SelectedServices {
         this.serviceCollection = selectedServices;
     }
 
-    public Get() {
+    public GetCollection() {
         return this.serviceCollection.map(service => service);
     }
 
     public Add(serviceToAdd: ServiceType) {
         this.serviceCollection = Array.from(new Set([...this.serviceCollection, serviceToAdd]));
         this.removeUnnecessaryServices();
+        return this;
     }
 
     public Remove(serviceToRemove: ServiceType) {
         this.serviceCollection = this.serviceCollection.filter(service => service != serviceToRemove);
         this.removeUnnecessaryServices();
+        return this;
     }
 
     private removeUnnecessaryServices() {

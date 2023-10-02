@@ -1,6 +1,6 @@
 import { ICalculateResult } from "./Domain/PriceLists/PriceListWithDiscount";
 import { ServiceType, ServiceYear } from "./Domain/model";
-import { provideBasePriceListForServiceYear } from "./Providers/priceListProvider";
+import { providePriceListForServiceYear } from "./Providers/priceListProvider";
 import { SelectedServices } from "./Domain/SelectedServices";
 
 
@@ -10,14 +10,14 @@ export const updateSelectedServices = (
 ): ServiceType[] => {
     switch (action.type) {
         case 'Select': {
-            const selectedServices = new SelectedServices(previouslySelectedServices);
-            selectedServices.Add(action.service);
-            return selectedServices.Get();
+            return new SelectedServices(previouslySelectedServices)
+                .Add(action.service)
+                .GetCollection();
         }
         case 'Deselect': {
-            const selectedServices = new SelectedServices(previouslySelectedServices);
-            selectedServices.Remove(action.service);
-            return selectedServices.Get();
+            return new SelectedServices(previouslySelectedServices)
+                .Remove(action.service)
+                .GetCollection();
         }
         default:
             throw new Error();
@@ -25,6 +25,6 @@ export const updateSelectedServices = (
 };
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear): ICalculateResult => {
-    const priceList = provideBasePriceListForServiceYear(selectedYear);
+    const priceList = providePriceListForServiceYear(selectedYear);
     return priceList.calculate(selectedServices);
 };
