@@ -1,6 +1,6 @@
 import { arrayHelper } from "../../Utils/arrayHelper";
 import { IDiscountInfo } from "../Discounts/IDiscountInfo";
-import { ServiceType } from "../model";
+import { SelectedServices } from "../SelectedServices";
 import { BasePriceList } from "./BasePriceList";
 
 
@@ -18,7 +18,7 @@ export class PriceListWithDiscount {
     this.discounts = discounts;
   }
 
-  public calculate(selectedServices: ServiceType[]): ICalculateResult {
+  public calculate(selectedServices: SelectedServices): ICalculateResult {
     if (!selectedServices) {
       return { basePrice: 0, finalPrice: 0 }
     }
@@ -32,13 +32,13 @@ export class PriceListWithDiscount {
     };
   }
 
-  private calculateDiscount(selectedServices: ServiceType[]) {
+  private calculateDiscount(selectedServices: SelectedServices) {
     let finalDiscountInfos = this.filterDiscountsWithConditionsMatch(selectedServices);
     finalDiscountInfos = this.removeRedundantDiscount(finalDiscountInfos);
     return this.sumDiscountPriceFromAllDiscountInfos(finalDiscountInfos);
   }
 
-  private filterDiscountsWithConditionsMatch(selectedServices: ServiceType[]) {
+  private filterDiscountsWithConditionsMatch(selectedServices: SelectedServices) {
     return this.discounts.filter(discount => discount.isConditionsMatch(selectedServices));
   }
 
@@ -61,13 +61,13 @@ export class PriceListWithDiscount {
   }
 
   private removeDuplicatedWeddingSessionDiscount(discounts: IDiscountInfo[]): IDiscountInfo[] {
-    const discountsWeddingSession = discounts.filter(discount => discount.usedForServices.includes("WeddingSession"));
+    const discountsWeddingSession = discounts.filter(discount => discount.usedForServices.Contain(new SelectedServices(["WeddingSession"])));
     if (discountsWeddingSession.length > 1) {
       const maxDiscount = arrayHelper.max(...discountsWeddingSession.map(discountInfo => discountInfo.discountPrice));
       const discountInfoWithBetterDiscount = discountsWeddingSession.filter((discountInfo) => discountInfo.discountPrice == maxDiscount)[0];
 
       return [
-        ...discounts.filter(discount => !discount.usedForServices.includes("WeddingSession")),
+        ...discounts.filter(discount => !discount.usedForServices.Contain(new SelectedServices(["WeddingSession"]))),
         discountInfoWithBetterDiscount
       ];
     }

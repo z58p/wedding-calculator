@@ -1,18 +1,18 @@
 import { arrayHelper } from "../../Utils/arrayHelper";
 import { BasePriceList } from "../PriceLists/BasePriceList";
-import { ServiceType } from "../model";
+import { SelectedServices } from "../SelectedServices";
 import { IDiscountInfo } from "./IDiscountInfo";
 
 
 export class FreeWeddingSessionWithPhotography implements IDiscountInfo {
-    public readonly usedForServices: ServiceType[];
+    public readonly usedForServices: SelectedServices;
     public readonly discountPrice: number;
-    public isConditionsMatch(selectedServices: ServiceType[]): boolean {
-        return arrayHelper.containAll(selectedServices, ["Photography", "WeddingSession"]);
+    public isConditionsMatch(selectedServices: SelectedServices): boolean {
+        return selectedServices.Contain(this.usedForServices);
     }
 
     constructor(basePriceList: BasePriceList) {
-        this.usedForServices = ["Photography", "WeddingSession"];
+        this.usedForServices = new SelectedServices(["Photography", "WeddingSession"]);
         this.discountPrice = basePriceList.priceFor("WeddingSession");
     }
 }

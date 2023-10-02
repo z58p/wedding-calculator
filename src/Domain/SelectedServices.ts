@@ -1,3 +1,4 @@
+import { arrayHelper } from "../Utils/arrayHelper";
 import { ServiceType } from "./model";
 
 export class SelectedServices {
@@ -11,6 +12,10 @@ export class SelectedServices {
         return this.serviceCollection.map(service => service);
     }
 
+    public Contain(selectedServices: SelectedServices) {
+        return arrayHelper.containAll(this.GetCollection(), selectedServices.GetCollection());
+    }
+
     public Add(serviceToAdd: ServiceType) {
         this.serviceCollection = Array.from(new Set([...this.serviceCollection, serviceToAdd]));
         this.removeUnnecessaryServices();
@@ -21,6 +26,10 @@ export class SelectedServices {
         this.serviceCollection = this.serviceCollection.filter(service => service != serviceToRemove);
         this.removeUnnecessaryServices();
         return this;
+    }
+
+    public Clone() {
+        return new SelectedServices(this.GetCollection());
     }
 
     private removeUnnecessaryServices() {

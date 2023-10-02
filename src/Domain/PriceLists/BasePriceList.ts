@@ -1,4 +1,5 @@
 import { arrayHelper } from "../../Utils/arrayHelper";
+import { SelectedServices } from "../SelectedServices";
 import { ServiceType } from "../model";
 
 
@@ -23,9 +24,9 @@ export class BasePriceList {
     throw new Error(`No base price for ${serviceType} service`);
   }
 
-  public calculateBasePrice(selectedServices: ServiceType[]): number {
+  public calculateBasePrice(selectedServices: SelectedServices): number {
     return selectedServices ?
-      arrayHelper.sum(...selectedServices.map(service => this.priceFor(service))) :
+      arrayHelper.sum(...selectedServices.GetCollection().map(service => this.priceFor(service))) :
       0;
   }
 }

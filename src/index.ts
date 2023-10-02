@@ -5,26 +5,26 @@ import { SelectedServices } from "./Domain/SelectedServices";
 
 
 export const updateSelectedServices = (
-    previouslySelectedServices: ServiceType[],
+    previouslySelectedServices: SelectedServices,
     action: { type: "Select" | "Deselect"; service: ServiceType }
-): ServiceType[] => {
+): SelectedServices => {
     switch (action.type) {
         case 'Select': {
-            return new SelectedServices(previouslySelectedServices)
+            return previouslySelectedServices
                 .Add(action.service)
-                .GetCollection();
+                .Clone();
         }
         case 'Deselect': {
-            return new SelectedServices(previouslySelectedServices)
+            return previouslySelectedServices
                 .Remove(action.service)
-                .GetCollection();
+                .Clone();
         }
         default:
             throw new Error();
     }
 };
 
-export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear): ICalculateResult => {
+export const calculatePrice = (selectedServices: SelectedServices, selectedYear: ServiceYear): ICalculateResult => {
     try {
         const priceList = providePriceListForServiceYear(selectedYear);
         return priceList.calculate(selectedServices);

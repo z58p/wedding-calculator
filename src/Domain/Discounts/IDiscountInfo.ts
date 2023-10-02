@@ -1,7 +1,7 @@
-import { ServiceType } from "../model";
+import { SelectedServices } from "../SelectedServices";
 
 export interface IDiscountInfo {
-    isConditionsMatch(selectedServices: ServiceType[]): boolean;
-    usedForServices: ServiceType[];
+    isConditionsMatch(selectedServices: SelectedServices): boolean;
+    usedForServices: SelectedServices;
     discountPrice: number;
 }
