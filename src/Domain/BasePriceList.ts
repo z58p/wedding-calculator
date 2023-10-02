@@ -1,4 +1,4 @@
-import { ServiceType } from "..";
+import { ServiceType } from "./model";
 
 export interface IPiceListItem {
   serviceType: ServiceType,

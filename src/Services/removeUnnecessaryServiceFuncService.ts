@@ -1,6 +1,7 @@
-import { ServiceType } from "..";
+import { ServiceType } from "../Domain/model";
 
-export const removeUnnecessaryServices = (distinctServices: ServiceType[]) => {
+
+export function removeUnnecessaryServices(distinctServices: ServiceType[]) {
     const removeUnnecessaryFuncs = provideRemoveUnnecessaryServiceFuncs()
     let result = distinctServices.map(service => service);
     removeUnnecessaryFuncs.forEach(removeMethod => {

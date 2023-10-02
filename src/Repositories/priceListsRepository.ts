@@ -1,8 +1,14 @@
-import { ServiceType } from "..";
 import { BasePriceList } from "../Domain/BasePriceList";
 import { PriceListWithDiscount } from "../Domain/PriceListWithDiscount";
+import { ServiceType } from "../Domain/model";
 import { arrayHelper } from "../Utils/arrayHelper";
-import { IDiscountInfo } from "./priceListsRepository";
+
+
+export interface IDiscountInfo {
+    isConditionsMatch(serviceTypes: ServiceType[]): boolean;
+    usedForServices: ServiceType[];
+    discountPrice: number
+}
 
 export const PreparePriceListWithDiscountFor2020 = () => {
     const basePriceList = new BasePriceList([

@@ -1,10 +1,7 @@
-
-import { getBasePiceListForServiceYear } from "./Providers/priceListProvider";
-import { ICalculateResult, calculate } from "./Services/priceCalculatorService";
+import { ServiceType, ServiceYear } from "./Domain/model";
+import { ICalculateResult } from "./Domain/PriceListWithDiscount";
+import { provideBasePiceListForServiceYear } from "./Providers/priceListProvider";
 import { removeUnnecessaryServices } from "./Services/removeUnnecessaryServiceFuncService";
-
-export type ServiceYear = 2020 | 2021 | 2022;
-export type ServiceType = "Photography" | "VideoRecording" | "BlurayPackage" | "TwoDayEvent" | "WeddingSession";
 
 export const updateSelectedServices = (
     previouslySelectedServices: ServiceType[],
@@ -21,8 +18,8 @@ export const updateSelectedServices = (
 };
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear): ICalculateResult => {
-    const priceList = getBasePiceListForServiceYear(selectedYear);
-    return calculate(priceList, selectedServices);
+    const priceList = provideBasePiceListForServiceYear(selectedYear);
+    return priceList.calculate(selectedServices);
 };
 
 const selectService = (previouslySelectedServices: ServiceType[], selectedService: ServiceType): ServiceType[] => {
