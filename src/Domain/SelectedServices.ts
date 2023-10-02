@@ -1,5 +1,7 @@
 import { arrayHelper } from "../Utils/arrayHelper";
+import { RedundantServicesPolitic } from "./Politics/RedundantServicesPolitic";
 import { ServiceType } from "./model";
+
 
 export class SelectedServices {
     private serviceCollection: ServiceType[]
@@ -17,14 +19,16 @@ export class SelectedServices {
     }
 
     public Add(serviceToAdd: ServiceType) {
-        this.serviceCollection = Array.from(new Set([...this.serviceCollection, serviceToAdd]));
-        this.removeUnnecessaryServices();
+        const distinctServices = Array.from(new Set([...this.serviceCollection, serviceToAdd]));
+        this.serviceCollection = new RedundantServicesPolitic(distinctServices)
+            .RemoveRedundantServices();
         return this;
     }
 
     public Remove(serviceToRemove: ServiceType) {
-        this.serviceCollection = this.serviceCollection.filter(service => service != serviceToRemove);
-        this.removeUnnecessaryServices();
+        const filteredServices = this.serviceCollection.filter(service => service != serviceToRemove);
+        this.serviceCollection = new RedundantServicesPolitic(filteredServices)
+            .RemoveRedundantServices();
         return this;
     }
 
@@ -32,33 +36,6 @@ export class SelectedServices {
         return new SelectedServices(this.GetCollection());
     }
 
-    private removeUnnecessaryServices() {
-        this.provideRemoveUnnecessaryServiceFuncs()
-            .forEach(removeMethod => {
-                this.serviceCollection = removeMethod(this.serviceCollection);
-            });
-    }
 
-    private provideRemoveUnnecessaryServiceFuncs() {
-        return [
-            this.removeUnnecessaryBlurayFunc,
-            this.removeUnnecessaryTwoDayEventFunc
-        ];
-    }
-
-    private removeUnnecessaryTwoDayEventFunc(distinctServices: ServiceType[]): ServiceType[] {
-        if (distinctServices.includes("TwoDayEvent") &&
-            !(distinctServices.includes("VideoRecording") || distinctServices.includes("Photography"))) {
-            return distinctServices.filter(service => service != "TwoDayEvent");
-        }
-        return distinctServices;
-    }
-
-    private removeUnnecessaryBlurayFunc(distinctServices: ServiceType[]): ServiceType[] {
-        if (distinctServices.includes("BlurayPackage") && !distinctServices.includes("VideoRecording")) {
-            return distinctServices.filter(service => service != "BlurayPackage");
-        }
-        return distinctServices;
-    }
 }
 

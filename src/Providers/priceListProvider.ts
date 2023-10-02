@@ -1,21 +1,84 @@
-import { PriceListWithDiscount } from "../Domain/PriceLists/PriceListWithDiscount";
+import { BasePriceList } from "../Domain/BasePriceList";
 import { ServiceYear } from "../Domain/model";
-import { PreparePriceListWithDiscountFor2020, PreparePriceListWithDiscountFor2021, PreparePriceListWithDiscountFor2022 } from "../Repositories/priceListsRepository";
 
 
-export const providePriceListForServiceYear = (serviceYear: ServiceYear): PriceListWithDiscount => {
+export const providePriceListForServiceYear = (serviceYear: ServiceYear): BasePriceList => {
     switch (serviceYear) {
         case 2020: {
-            return PreparePriceListWithDiscountFor2020();
+            return new BasePriceList([
+                {
+                    serviceType: "Photography",
+                    price: 1700
+                },
+                {
+                    serviceType: "VideoRecording",
+                    price: 1700
+                },
+                {
+                    serviceType: "WeddingSession",
+                    price: 600
+                },
+                {
+                    serviceType: "BlurayPackage",
+                    price: 300
+                },
+                {
+                    serviceType: "TwoDayEvent",
+                    price: 400
+                },
+            ]);
         }
         case 2021: {
-            return PreparePriceListWithDiscountFor2021();
+            return new BasePriceList([
+                {
+                    serviceType: "Photography",
+                    price: 1800
+                },
+                {
+                    serviceType: "VideoRecording",
+                    price: 1800
+                },
+                {
+                    serviceType: "WeddingSession",
+                    price: 600
+                },
+                {
+                    serviceType: "BlurayPackage",
+                    price: 300
+                },
+                {
+                    serviceType: "TwoDayEvent",
+                    price: 400
+                },
+            ]);
         }
         case 2022: {
-            return PreparePriceListWithDiscountFor2022();
+            return new BasePriceList([
+                {
+                    serviceType: "Photography",
+                    price: 1900
+                },
+                {
+                    serviceType: "VideoRecording",
+                    price: 1900
+                },
+                {
+                    serviceType: "WeddingSession",
+                    price: 600
+                },
+                {
+                    serviceType: "BlurayPackage",
+                    price: 300
+                },
+                {
+                    serviceType: "TwoDayEvent",
+                    price: 400
+                },
+            ]);
         }
         default: {
             throw new Error(`not found PriceListWithDiscount for ${serviceYear}`);
         }
     }
 }
+

@@ -1,6 +1,6 @@
-import { arrayHelper } from "../../Utils/arrayHelper";
-import { SelectedServices } from "../SelectedServices";
-import { ServiceType } from "../model";
+import { arrayHelper } from "../Utils/arrayHelper";
+import { SelectedServices } from "./SelectedServices";
+import { ServiceType } from "./model";
 
 
 export interface IBasePriceListItem {

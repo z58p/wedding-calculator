@@ -1,7 +1,8 @@
-import { ICalculateResult } from "./Domain/PriceLists/PriceListWithDiscount";
+import { Calculator, ICalculateResult } from "./Domain/Calculator";
 import { ServiceType, ServiceYear } from "./Domain/model";
 import { providePriceListForServiceYear } from "./Providers/priceListProvider";
 import { SelectedServices } from "./Domain/SelectedServices";
+import { provideDiscountListForServiceYear } from "./Providers/discountListProvider";
 
 
 export const updateSelectedServices = (
@@ -27,7 +28,8 @@ export const updateSelectedServices = (
 export const calculatePrice = (selectedServices: SelectedServices, selectedYear: ServiceYear): ICalculateResult => {
     try {
         const priceList = providePriceListForServiceYear(selectedYear);
-        return priceList.calculate(selectedServices);
+        const discountList = provideDiscountListForServiceYear(selectedYear, priceList);
+        return new Calculator(priceList, discountList).calculatePrice(selectedServices);
     } catch (e) {
         const error = e as Error
         if (error) {
