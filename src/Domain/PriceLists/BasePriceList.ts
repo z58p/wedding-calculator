@@ -14,9 +14,13 @@ export class BasePriceList {
     this.items = items;
   }
 
-  // todo: ask the business what if the service is not in the price list 
   public priceFor(serviceType: ServiceType): number {
-    return this.items.find(x => x.serviceType == serviceType)?.price ?? 0;
+    const item = this.items.find(x => x.serviceType == serviceType);
+    if (item) {
+      return item.price;
+    }
+
+    throw new Error(`No base price for ${serviceType} service`);
   }
 
   public calculateBasePrice(selectedServices: ServiceType[]): number {
@@ -25,5 +29,3 @@ export class BasePriceList {
       0;
   }
 }
-
-export const emptyBasePriceList = new BasePriceList([]);

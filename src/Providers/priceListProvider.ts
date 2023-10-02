@@ -1,4 +1,4 @@
-import { PriceListWithDiscount, emptyPriceListWithDiscount } from "../Domain/PriceLists/PriceListWithDiscount";
+import { PriceListWithDiscount } from "../Domain/PriceLists/PriceListWithDiscount";
 import { ServiceYear } from "../Domain/model";
 import { PreparePriceListWithDiscountFor2020, PreparePriceListWithDiscountFor2021, PreparePriceListWithDiscountFor2022 } from "../Repositories/priceListsRepository";
 
@@ -15,7 +15,7 @@ export const providePriceListForServiceYear = (serviceYear: ServiceYear): PriceL
             return PreparePriceListWithDiscountFor2022();
         }
         default: {
-            return emptyPriceListWithDiscount;
+            throw new Error(`not found PriceListWithDiscount for ${serviceYear}`);
         }
     }
 }

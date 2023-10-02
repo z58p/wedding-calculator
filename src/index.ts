@@ -25,6 +25,21 @@ export const updateSelectedServices = (
 };
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear): ICalculateResult => {
-    const priceList = providePriceListForServiceYear(selectedYear);
-    return priceList.calculate(selectedServices);
+    try {
+        const priceList = providePriceListForServiceYear(selectedYear);
+        return priceList.calculate(selectedServices);
+    } catch (e) {
+        const error = e as Error
+        if (error) {
+            const errorMessage = {
+                message: `error on calculation`,
+                innerErrorMessage: error.message,
+                selectedYear,
+                selectedServices
+            };
+            throw new Error(JSON.stringify(errorMessage));
+        }
+
+        throw e;
+    }
 };

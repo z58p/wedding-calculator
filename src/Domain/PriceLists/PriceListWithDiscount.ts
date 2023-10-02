@@ -1,7 +1,7 @@
 import { arrayHelper } from "../../Utils/arrayHelper";
 import { IDiscountInfo } from "../Discounts/IDiscountInfo";
 import { ServiceType } from "../model";
-import { BasePriceList, emptyBasePriceList } from "./BasePriceList";
+import { BasePriceList } from "./BasePriceList";
 
 
 export interface ICalculateResult {
@@ -75,5 +75,3 @@ export class PriceListWithDiscount {
     return discounts;
   }
 }
-
-export const emptyPriceListWithDiscount = new PriceListWithDiscount(emptyBasePriceList, []);
