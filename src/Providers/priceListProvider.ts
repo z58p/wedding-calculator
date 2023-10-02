@@ -1,6 +1,7 @@
-import { PriceListWithDiscount, emptyPriceListWithDiscount } from "../Domain/PriceListWithDiscount";
+import { PriceListWithDiscount, emptyPriceListWithDiscount } from "../Domain/PriceLists/PriceListWithDiscount";
 import { ServiceYear } from "../Domain/model";
 import { PreparePriceListWithDiscountFor2020, PreparePriceListWithDiscountFor2021, PreparePriceListWithDiscountFor2022 } from "../Repositories/priceListsRepository";
+
 
 export const provideBasePiceListForServiceYear = (serviceYear: ServiceYear): PriceListWithDiscount => {
     switch (serviceYear) {

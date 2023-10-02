@@ -1,15 +1,16 @@
-import { arrayHelper } from "../Utils/arrayHelper";
-import { ServiceType } from "./model";
+import { arrayHelper } from "../../Utils/arrayHelper";
+import { ServiceType } from "../model";
 
-export interface IPiceListItem {
+
+export interface IBasePriceListItem {
   serviceType: ServiceType,
   price: number
 }
 
 export class BasePriceList {
-  private readonly items: IPiceListItem[];
+  private readonly items: IBasePriceListItem[];
 
-  constructor(items: IPiceListItem[]) {
+  constructor(items: IBasePriceListItem[]) {
     this.items = items;
   }
 

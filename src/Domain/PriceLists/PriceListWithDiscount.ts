@@ -1,7 +1,8 @@
-import { IDiscountInfo } from "../Repositories/priceListsRepository";
-import { arrayHelper } from "../Utils/arrayHelper";
+import { arrayHelper } from "../../Utils/arrayHelper";
+import { IDiscountInfo } from "../Discounts/IDiscountInfo";
+import { ServiceType } from "../model";
 import { BasePriceList, emptyBasePriceList } from "./BasePriceList";
-import { ServiceType } from "./model";
+
 
 export interface ICalculateResult {
   basePrice: number,

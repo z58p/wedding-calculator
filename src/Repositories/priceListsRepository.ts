@@ -1,14 +1,9 @@
-import { BasePriceList } from "../Domain/BasePriceList";
-import { PriceListWithDiscount } from "../Domain/PriceListWithDiscount";
-import { ServiceType } from "../Domain/model";
-import { arrayHelper } from "../Utils/arrayHelper";
+import { BasePriceList } from "../Domain/PriceLists/BasePriceList";
+import { FreeWeddingSessionWithPhotography } from "../Domain/Discounts/FreeWeddingSessionWithPhotography";
+import { PackagePhotographyAndVideoDiscount } from "../Domain/Discounts/PackagePhotographyAndVideoDiscount";
+import { PackageWeddingSessionAndPhotographyOrVideoDiscount } from "../Domain/Discounts/PackageWeddingSessionAndPhotographyOrVideoDiscount";
+import { PriceListWithDiscount } from "../Domain/PriceLists/PriceListWithDiscount";
 
-
-export interface IDiscountInfo {
-    isConditionsMatch(serviceTypes: ServiceType[]): boolean;
-    usedForServices: ServiceType[];
-    discountPrice: number
-}
 
 export const PreparePriceListWithDiscountFor2020 = () => {
     const basePriceList = new BasePriceList([
@@ -35,8 +30,8 @@ export const PreparePriceListWithDiscountFor2020 = () => {
     ]);
 
     const discounts = [
-        packagePhotographyAndVideoDiscount(basePriceList, 2200),
-        packageWeddingSessionAndPhotographyOrVideoDiscount(),
+        new PackagePhotographyAndVideoDiscount(basePriceList, 2200),
+        new PackageWeddingSessionAndPhotographyOrVideoDiscount(),
     ];
 
     return new PriceListWithDiscount(basePriceList, discounts);
@@ -67,8 +62,8 @@ export const PreparePriceListWithDiscountFor2021 = () => {
     ]);
 
     const discounts = [
-        packagePhotographyAndVideoDiscount(basePriceList, 2300),
-        packageWeddingSessionAndPhotographyOrVideoDiscount(),
+        new PackagePhotographyAndVideoDiscount(basePriceList, 2300),
+        new PackageWeddingSessionAndPhotographyOrVideoDiscount(),
     ]
 
     return new PriceListWithDiscount(basePriceList, discounts);
@@ -98,47 +93,10 @@ export const PreparePriceListWithDiscountFor2022 = () => {
         },
     ]);
 
-    const freeWeddingSessionWithPhotography =
-        {
-            usedForServices: ["Photography", "WeddingSession"],
-            isConditionsMatch: (selectedTypes: ServiceType[]) => {
-                return arrayHelper.containAll(selectedTypes, ["Photography", "WeddingSession"]);
-            },
-            discountPrice: basePriceList.priceFor("WeddingSession")
-        } as IDiscountInfo
-
     const discounts = [
-        packagePhotographyAndVideoDiscount(basePriceList, 2500),
-        packageWeddingSessionAndPhotographyOrVideoDiscount(),
-        freeWeddingSessionWithPhotography
+        new PackagePhotographyAndVideoDiscount(basePriceList, 2500),
+        new PackageWeddingSessionAndPhotographyOrVideoDiscount(),
+        new FreeWeddingSessionWithPhotography(basePriceList)
     ]
     return new PriceListWithDiscount(basePriceList, discounts);
 }
-
-function packagePhotographyAndVideoDiscount(basePriceList: BasePriceList, finalPrice: number) {
-    return {
-        usedForServices: ["Photography", "VideoRecording"],
-        isConditionsMatch: (selectedTypes: ServiceType[]) => {
-            return arrayHelper.containAll(selectedTypes, ["Photography", "VideoRecording"]);
-        },
-        discountPrice: calculateDiscountForConstPriceAfterDiscount(basePriceList, finalPrice, "Photography", "VideoRecording")
-    } as Required<IDiscountInfo>;
-}
-
-function packageWeddingSessionAndPhotographyOrVideoDiscount() {
-    return {
-        usedForServices: ["WeddingSession"],
-        isConditionsMatch: (selectedTypes: ServiceType[]) => {
-            return arrayHelper.containAll(selectedTypes, ["VideoRecording", "WeddingSession"]) ||
-                arrayHelper.containAll(selectedTypes, ["Photography", "WeddingSession"]);
-        },
-        discountPrice: 300
-    } as Required<IDiscountInfo>;
-}
-
-function calculateDiscountForConstPriceAfterDiscount(basePriceList: BasePriceList, priceAfterDiscount: number, ...discountServiceType: ServiceType[]) {
-    const basePriceForDiscountServiceType =
-        arrayHelper.sum(...discountServiceType.map(serviceType => basePriceList.priceFor(serviceType)));
-    return basePriceForDiscountServiceType - priceAfterDiscount;
-}
-

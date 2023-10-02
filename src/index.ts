@@ -1,7 +1,8 @@
+import { ICalculateResult } from "./Domain/PriceLists/PriceListWithDiscount";
 import { ServiceType, ServiceYear } from "./Domain/model";
-import { ICalculateResult } from "./Domain/PriceListWithDiscount";
 import { provideBasePiceListForServiceYear } from "./Providers/priceListProvider";
-import { removeUnnecessaryServices } from "./Services/removeUnnecessaryServiceFuncService";
+import { removeUnnecessaryServices } from "./Services/removeUnnecessarySelectedServiceService";
+
 
 export const updateSelectedServices = (
     previouslySelectedServices: ServiceType[],
