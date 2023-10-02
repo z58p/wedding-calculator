@@ -1,6 +1,16 @@
 import { ServiceType } from "..";
 
-export function provideRemoveUnnecessaryServiceFuncs() {
+export const removeUnnecessaryServices = (distinctServices: ServiceType[]) => {
+    const removeUnnecessaryFuncs = provideRemoveUnnecessaryServiceFuncs()
+    let result = distinctServices.map(service => service);
+    removeUnnecessaryFuncs.forEach(removeMethod => {
+        result = removeMethod(result);
+    });
+
+    return result;
+}
+
+function provideRemoveUnnecessaryServiceFuncs() {
     return [
         removeUnnecessaryBlurayFunc,
         removeUnnecessaryTwoDayEventFunc

@@ -1,8 +1,8 @@
 import { ServiceType } from "..";
 import { IDiscountInfo } from "../Providers/priceListsRepository";
 import { arrayHelper } from "../Utils/arrayHelper";
-import { PriceListWithDiscount } from "./PriceListWithDiscount";
-import { removeRedundantDiscount } from "./Services/removeRedundandDiscountService";
+import { PriceListWithDiscount } from "../Domain/PriceListWithDiscount";
+import { removeRedundantDiscount } from "./removeRedundantDiscountService";
 
 export interface ICalculateResult {
     basePrice: number,

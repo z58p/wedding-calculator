@@ -1,5 +1,5 @@
-import { IDiscountInfo } from "../../Providers/priceListsRepository";
-import { arrayHelper } from "../../Utils/arrayHelper";
+import { IDiscountInfo } from "../Providers/priceListsRepository";
+import { arrayHelper } from "../Utils/arrayHelper";
 
 export function removeRedundantDiscount(finalDiscounts: IDiscountInfo[]) {
     getRemoveDuplicatedDiscountFunc().forEach(removeMethod => {
