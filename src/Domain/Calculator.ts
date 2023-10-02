@@ -10,11 +10,11 @@ export interface ICalculateResult {
 
 export class Calculator {
   private readonly basePriceList: BasePriceList;
-  private readonly discounts: DiscountList;
+  private readonly discountList: DiscountList;
 
   constructor(basePriceList: BasePriceList, discounts: DiscountList) {
     this.basePriceList = basePriceList;
-    this.discounts = discounts;
+    this.discountList = discounts;
   }
 
   public calculatePrice(selectedServices: SelectedServices): ICalculateResult {
@@ -23,7 +23,7 @@ export class Calculator {
     }
 
     const basePrice = this.basePriceList.calculateBasePrice(selectedServices);
-    const discount = this.discounts.calculateDiscount(selectedServices);
+    const discount = this.discountList.calculateDiscount(selectedServices);
 
     return {
       basePrice: basePrice,

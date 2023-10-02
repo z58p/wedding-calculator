@@ -5,7 +5,7 @@ import { ServiceType } from "../model";
 import { IDiscountInfo } from "./IDiscountInfo";
 
 
-export class FixedPriceForPackageDiscount implements IDiscountInfo {
+export class FixedPriceForPackage implements IDiscountInfo {
     public readonly usedForServices: SelectedServices;
     public readonly discountPrice: number;
     public isConditionsMatch(selectedServices: SelectedServices): boolean {

@@ -29,7 +29,8 @@ export const calculatePrice = (selectedServices: SelectedServices, selectedYear:
     try {
         const priceList = providePriceListForServiceYear(selectedYear);
         const discountList = provideDiscountListForServiceYear(selectedYear, priceList);
-        return new Calculator(priceList, discountList).calculatePrice(selectedServices);
+        return new Calculator(priceList, discountList)
+            .calculatePrice(selectedServices);
     } catch (e) {
         const error = e as Error
         if (error) {
