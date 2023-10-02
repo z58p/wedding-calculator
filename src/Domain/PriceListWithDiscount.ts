@@ -22,19 +22,13 @@ export class PriceListWithDiscount {
       return { basePrice: 0, finalPrice: 0 }
     }
 
-    const basePrice = this.calculateBasePrice(selectedServices);
+    const basePrice = this.basePriceList.calculateBasePrice(selectedServices);
     const discount = this.calculateDiscount(selectedServices);
 
     return {
       basePrice: basePrice,
       finalPrice: basePrice - discount
     };
-  }
-
-  private calculateBasePrice(selectedServices: ServiceType[]): number {
-    return selectedServices ?
-      arrayHelper.sum(...selectedServices.map(service => this.basePriceList.priceFor(service))) :
-      0;
   }
 
   private calculateDiscount(selectedServices: ServiceType[]) {
