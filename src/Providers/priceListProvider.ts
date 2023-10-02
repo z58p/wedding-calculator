@@ -3,7 +3,7 @@ import { ServiceYear } from "../Domain/model";
 import { PreparePriceListWithDiscountFor2020, PreparePriceListWithDiscountFor2021, PreparePriceListWithDiscountFor2022 } from "../Repositories/priceListsRepository";
 
 
-export const provideBasePiceListForServiceYear = (serviceYear: ServiceYear): PriceListWithDiscount => {
+export const provideBasePriceListForServiceYear = (serviceYear: ServiceYear): PriceListWithDiscount => {
     switch (serviceYear) {
         case 2020: {
             return PreparePriceListWithDiscountFor2020();

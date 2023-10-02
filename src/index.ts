@@ -1,7 +1,7 @@
 import { ICalculateResult } from "./Domain/PriceLists/PriceListWithDiscount";
 import { ServiceType, ServiceYear } from "./Domain/model";
-import { provideBasePiceListForServiceYear } from "./Providers/priceListProvider";
-import { removeUnnecessaryServices } from "./Services/removeUnnecessarySelectedServiceService";
+import { provideBasePriceListForServiceYear } from "./Providers/priceListProvider";
+import { SelectedServices } from "./Domain/SelectedServices";
 
 
 export const updateSelectedServices = (
@@ -9,29 +9,22 @@ export const updateSelectedServices = (
     action: { type: "Select" | "Deselect"; service: ServiceType }
 ): ServiceType[] => {
     switch (action.type) {
-        case 'Select':
-            return selectService(previouslySelectedServices, action.service);
-        case 'Deselect':
-            return deselectService(previouslySelectedServices, action.service);
+        case 'Select': {
+            const selectedServices = new SelectedServices(previouslySelectedServices);
+            selectedServices.Add(action.service);
+            return selectedServices.Get();
+        }
+        case 'Deselect': {
+            const selectedServices = new SelectedServices(previouslySelectedServices);
+            selectedServices.Remove(action.service);
+            return selectedServices.Get();
+        }
         default:
             throw new Error();
     }
 };
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear): ICalculateResult => {
-    const priceList = provideBasePiceListForServiceYear(selectedYear);
+    const priceList = provideBasePriceListForServiceYear(selectedYear);
     return priceList.calculate(selectedServices);
 };
-
-const selectService = (previouslySelectedServices: ServiceType[], selectedService: ServiceType): ServiceType[] => {
-    const distinctServices = Array.from(new Set([...previouslySelectedServices, selectedService]));
-    return removeUnnecessaryServices(distinctServices);
-}
-
-const deselectService = (previouslySelectedServices: ServiceType[], deselectedService: ServiceType): ServiceType[] => {
-    const servicesAfterDeselect = previouslySelectedServices.filter(service => service != deselectedService);
-    return removeUnnecessaryServices(servicesAfterDeselect);
-}
-
-
-

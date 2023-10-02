@@ -47,13 +47,14 @@ export class PriceListWithDiscount {
   }
 
   private removeRedundantDiscount(finalDiscounts: IDiscountInfo[]) {
-    this.getRemoveDuplicatedDiscountFunc().forEach(removeMethod => {
-      finalDiscounts = removeMethod(finalDiscounts);
-    });
+    this.getRemoveDuplicatedDiscountFuncs()
+      .forEach(removeMethod => {
+        finalDiscounts = removeMethod(finalDiscounts);
+      });
     return finalDiscounts;
   }
 
-  private getRemoveDuplicatedDiscountFunc() {
+  private getRemoveDuplicatedDiscountFuncs() {
     return [
       this.removeDuplicatedWeddingSessionDiscount
     ];
